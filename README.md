@@ -1,7 +1,6 @@
 Build image
 -----------
-1. Copy/dowload project
-2. docker build -t alexg -f Dockerfile .
+docker build -t alexg -f Dockerfile .
 
 Create container
 ---------------
