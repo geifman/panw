@@ -1,6 +1,6 @@
 FROM python
 RUN pip install pytest requests
-WORKDIR /tmp
-COPY PycharmProjects/pythonProject .
+WORKDIR /usr/src/homework
+COPY Homework .
 COPY twtask .
 ENTRYPOINT ["/bin/bash", "-c", "./twtask"]
