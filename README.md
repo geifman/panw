@@ -1,6 +1,6 @@
 Image build instructions
 ------------------------
-1. Copy Model and Tests folder to /tmp
+1. Copy pythonProject folder to your VM
 
 3. docker build -t alexg -f Dockerfile .
 4. docker run --name geifman -it --rm alexg &
