@@ -5,7 +5,7 @@ Build image
 
 Create container
 ---------------
-1. docker run --name geifman -it --rm alexg &
+1. docker run -d --name geifman -it --rm alexg
 2. docker exec -it geifman /bin/bash
 
 Run tests
