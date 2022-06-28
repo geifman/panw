@@ -4,8 +4,11 @@ docker build -t alexg -f Dockerfile .
 
 Create container
 ---------------
-1. docker run -d --rm --name geifman alexg
-2. docker exec -it geifman /bin/bash
+docker run -d --rm --name geifman alexg
+
+Connect to container
+--------------------
+docker exec -it geifman /bin/bash
 
 Run tests
 ---------
