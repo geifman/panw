@@ -63,7 +63,7 @@ def test_get_page_with_non_existing_index():
     assert len(players) == 0, "Expected empty list. Received list of players:" + str(players)
 
 
-pages=list(range(1,18))
+pages=list(range(1,17))
 
 
 # Check that both Name and ID contain values
