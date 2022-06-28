@@ -16,7 +16,7 @@ def get_players(page="1"):
     if response.status_code != 200:
         raise ValueError('get_players failed with status code: ' + str(response.status_code) + ' and error message: ' + response.reason)
 
-    return (response.json())
+    return (response)
 
 #def get_player_by_name
 
