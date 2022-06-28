@@ -1,4 +1,5 @@
 import pytest
+from pytest import approx
 from Model.players import *
 from Model.utils import *
 from Model.properties import *
@@ -51,22 +52,24 @@ def test_wrong_url_parameter_key():
 
 
 def test_get_players():
-    players = get_players()
-    assert len(players) > 0
+    expected_num_players = 50
+    players = get_players().json()
+    assert len(players) == expected_num_players, \
+        "Missing data in response. Expected number of players:" + str(expected_num_players) + " .Received: " + str(len(players))
 
 
 def test_get_page_with_non_existing_index():
-    players = get_players(10000000) # Assuming I know the number of players in DB
+    players = get_players(10000000).json() # Assuming I know the number of players in DB
     assert len(players) == 0, "Expected empty list. Received list of players:" + str(players)
 
 
-pages=[1,2,17]
+pages=list(range(1,18))
 
 
 # Check that both Name and ID contain values
 @pytest.mark.parametrize('arg', pages)
 def test_values_not_empty(arg):
-    players = get_players(arg)
+    players = get_players(arg).json()
     errors = []
 
     for player in players:
@@ -79,7 +82,7 @@ def test_values_not_empty(arg):
 
 
 def test_ids_are_sequential():
-    players = get_players(1)
+    players = get_players(1).json()
     errors = []
     current_id = -1
     for player in players:
@@ -94,5 +97,11 @@ def test_ids_are_sequential():
     assert not errors, "errors occurred:\n{}".format("\n".join(errors))
 
 
-
-
+@pytest.mark.parametrize('arg', pages)
+def test_average_response_time(arg):
+    expected_response_time=0.0041
+    response = get_players(arg)
+    elapsed_time = response.elapsed.total_seconds()
+    # response time longer than expected_response_time + 2 sec  will be reported
+    assert elapsed_time == pytest.approx(expected_response_time, 2), \
+        "Response time of page: " + str(elapsed_time) + " exceeds expected margin."
