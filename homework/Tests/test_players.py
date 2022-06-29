@@ -1,4 +1,5 @@
 import pytest
+import sys
 from pytest import approx
 from Model.players import *
 from Model.utils import *
@@ -105,3 +106,19 @@ def test_average_response_time(arg):
     # response time longer than expected_response_time + 2 sec  will be reported
     assert elapsed_time == pytest.approx(expected_response_time, 2), \
         "Response time of page: " + str(elapsed_time) + " exceeds expected margin."
+
+
+# Test captures stdout from twtask app and supposed to run on localost only
+def test_twtask_console_output(capfd):
+
+    data = Properties.get()
+    if "localhost" not in data.envProperties['url']:
+        pytest.skip("unsupported configuration")
+
+    query = {'page': "1"}
+    response = requests.get(data.envProperties['url'],
+                            params=query,
+                            auth=HTTPBasicAuth(get_random_string(6), data.envProperties['password']))
+
+    captured = capfd.readouterr()
+    assert "Required" not in captured.out, "twtask application prints to console sensitive data: " + captured.out
